@@ -64,11 +64,14 @@ def init_app_db():
 
 init_app_db()
 
+import smtplib
+from email.mime.text import MIMEText
+
 def send_email(target_email, job_results):
     sender = "airesumeparser@gmail.com"
-    password = "mwlr fpzs xmda uffd"
+    password = "mwlr fpzs xmda uffd" 
 
-    subject = "Application Result - ParsePort AI"
+    subject = "Application Result - AI Resume Parser"
     
     table_content = ""
     for res in job_results:
@@ -85,7 +88,7 @@ def send_email(target_email, job_results):
                 {table_content}
             </table>
             <br>
-            <p>Thank you for using ParsePort!</p>
+            <p>Thank you for using AI Resume Parser!</p>
         </body>
     </html>
     """
@@ -95,9 +98,14 @@ def send_email(target_email, job_results):
     msg['From'] = sender
     msg['To'] = target_email
 
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-        server.login(sender, password)
-        server.sendmail(sender, target_email, msg.as_string())
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587, timeout=30) as server:
+            server.starttls() 
+            server.login(sender, password)
+            server.sendmail(sender, target_email, msg.as_string())
+            print("Email sent successfully!")
+    except Exception as e:
+        print(f"Error sending email: {e}")
 
 @app.route('/add_job', methods=['POST'])
 def add_job():
@@ -280,3 +288,4 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
 
     app.run(host='0.0.0.0', port=port)
+
