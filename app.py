@@ -65,8 +65,8 @@ def init_app_db():
 init_app_db()
 
 def send_email(target_email, job_results):
-    sender = "accitrack03@gmail.com"
-    password = "veoy cwtd ekek yqjv"
+    sender = "airesumeparser@gmail.com"
+    password = "mwlr fpzs xmda uffd"
 
     subject = "Application Result - ParsePort AI"
     
@@ -278,4 +278,5 @@ if __name__ == '__main__':
     init_job_db()  
     init_app_db()  
     port = int(os.environ.get("PORT", 5000))
+
     app.run(host='0.0.0.0', port=port)
